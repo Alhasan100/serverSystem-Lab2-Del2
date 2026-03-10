@@ -1,0 +1,7 @@
+PROXMOX DESIRED STATE RAPPORT 
+
+Brandväggsstatus: Status: disabled/running
+
+Åtgärder (Maskiner som har startats):
+Antal VMs : 0
+Antal CTs : 0
