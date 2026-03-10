@@ -81,6 +81,8 @@ Detta gör att Ansible inte kan starta maskinen, vilket fångas upp av vår felh
 
 <img width="888" height="292" alt="image" src="https://github.com/user-attachments/assets/6f4c149a-bac0-43c5-b565-4b7943c71a70" />
 
+log filer som finns under Del-B är loggar som visar resultat på hur det skulle se ut om allt är igång och inga varningar uppstår.
+
 
 ## Idempotens
 
