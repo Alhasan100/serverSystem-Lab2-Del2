@@ -60,7 +60,11 @@ Projektet är organiserat enligt följande för att främja modularitet:
 * `desired_state/main.yaml`: Innehåller definitionen av det önskade tillståndet för miljön.
 * `log/`: Innehåller loggfiler som `inventory.log` och `warning.log`.
 
-<img width="454" height="248" alt="image" src="https://github.com/user-attachments/assets/91a530b3-f80c-4928-ac23-d92ba7e8dfa8" />
+Mappstrukturen framställdes genom en iterativ process med hjälp av AI. Genom att mata in specifik information om projektets omfattning, vilka mappar som krävdes och vilka specifika *tasks* som skulle genomföras, genererades flera olika bild versioner. 
+
+För att nå det slutgiltiga resultatet krävdes en mer detaljerad och preciserad beskrivning i prompten gällande exakt vilka undermappar och filer som behövdes för att stödja projektets logik. Arbetet fortsatte tills vi uppnådde denna specifika struktur, vilken vi fastställde som den mest optimala för att organisera våra Ansible-playbooks och tillhörande konfigurationsfiler på ett logiskt och lätthanterligt sätt. Nedan kan man se den Mappstrukturen som vi valde:
+
+<img width="908" height="496" alt="image" src="https://github.com/user-attachments/assets/91a530b3-f80c-4928-ac23-d92ba7e8dfa8" />
 
 
 ## Felhantering & Testning
