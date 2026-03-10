@@ -79,7 +79,7 @@ qm set 100 --lock backup
 
 Detta gör att Ansible inte kan starta maskinen, vilket fångas upp av vår felhanteringslogik (via en loop i summary) och skrivs till `warning_log.txt` som man ser nedan:
 
-<img width="444" height="146" alt="image" src="https://github.com/user-attachments/assets/6f4c149a-bac0-43c5-b565-4b7943c71a70" />
+<img width="888" height="292" alt="image" src="https://github.com/user-attachments/assets/6f4c149a-bac0-43c5-b565-4b7943c71a70" />
 
 
 ## Idempotens
