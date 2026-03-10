@@ -1,0 +1,18 @@
+---
+- name: "STATE | Starta stoppade VMs"
+  command: "qm start {{ item.item.id }}"
+  loop: "{{ vm_detail_status.results }}"
+  loop_control:
+    label: "VM {{ item.item.id }} ({{ item.item.name }})"
+  when: "'stopped' in item.stdout"
+  register: started_vms
+  failed_when: "started_vms.rc != 0 and item.item.critical | default(false)"
+
+- name: "STATE | Starta stoppade CTs"
+  command: "pct start {{ item.item.id }}"
+  loop: "{{ ct_detail_status.results }}"
+  loop_control:
+    label: "CT {{ item.item.id }} ({{ item.item.name }})"
+  when: "'stopped' in item.stdout"
+  register: started_cts
+  failed_when: "started_cts.rc != 0 and item.item.critical | default(false)"

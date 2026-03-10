@@ -1,0 +1,50 @@
+--- 
+- name: "RAPPORT | Skapa sammanfattning"
+  set_fact:
+    report_content: |
+      PROXMOX DESIRED STATE RAPPORT 
+
+      Brandväggsstatus: {{ fw_status.stdout_lines[0] | default('Inga anmärkningar för brandväggen.')}}
+
+      Åtgärder (Maskiner som försökte startats):
+      Antal VMs : {{ started_vms.results | default([]) | selectattr('changed','equalto',true) | list | length }}
+      Antal CTs : {{ started_cts.results | default([]) | selectattr('changed','equalto',true) | list | length }}
+
+- name: "RAPPORT | Skapa varningslogg"
+  set_fact:
+    warning_content: |
+      PROXMOX VARNINGSLOGG
+      
+      Brandvägg:
+      {{ fw_warning | default('Inga anmärkningar för brandväggen.') }}
+      
+      Misslyckade starter:
+      {% set vm_fails = started_vms.results | default([]) | selectattr('rc', 'defined') | rejectattr('rc', 'equalto', 0) | list %}
+      {% set ct_fails = started_cts.results | default([]) | selectattr('rc', 'defined') | rejectattr('rc', 'equalto', 0) | list %}
+      {% if vm_fails | length == 0 and ct_fails | length == 0 %}
+      Inga misslyckade starter.
+      {% else %}
+      {% for res in vm_fails %}
+      - VM {{ res.item.item.id }} ({{ res.item.item.name }}) kunde inte startas.
+      {% endfor %}
+      {% for res in ct_fails %}
+      - CT {{ res.item.item.id }} ({{ res.item.item.name }}) kunde inte startas.
+      {% endfor %}
+      {% endif %}
+
+- name: "Rapport | Visa sammanfattning i terminalen"
+  debug: 
+    msg: "{{ report_content }}"
+
+- name: "Rapport | Visa varningar i terminalen"
+  debug: 
+    msg: "{{ warning_content }}"
+
+- name: "Rapport | Spara rapport till fil på proxmox-node"
+  copy: 
+    dest: "{{ report_path }}"
+
+- name: "Rapport | Spara varningslogg till fil på proxmox-node"
+  copy: 
+    content: "{{ warning_content }}"
+    dest: "{{ warning_path }}"

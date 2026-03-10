@@ -1,0 +1,23 @@
+---
+- name: "FIREWALL | kontrollera om pve-firewall är aktiv"
+  command: "pve-firewall status"
+  register: fw_status
+  changed_when: false
+  check_mode: false
+
+- name: "FIREWALL | Läs in klustrets brandväggsregler"
+  command: "cat /etc/pve/firewall/cluster.fw"
+  register: fw_rules 
+  changed_when: false 
+  check_mode: false
+  failed_when: false 
+
+- name: "FIREWALL | Spara brandväggsvarning om regel saknas"
+  set_fact:
+    fw_warning: "VARNING: Hittade ingen tydlig ACCEPT-regel för {{ admin_network }}!"
+  when: "fw_rules.stdout is defined and admin_network not in fw_rules.stdout"
+
+- name: "FIREWALL | Varna i terminalen om SSH-regel saknas"
+  debug:
+    msg: "{{ fw_warning }}"
+  when: fw_warning is defined

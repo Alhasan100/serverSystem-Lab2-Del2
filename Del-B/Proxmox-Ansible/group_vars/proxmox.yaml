@@ -1,0 +1,25 @@
+---
+
+desired_running:
+  - id: 103
+    name: "suricata-dubai"
+    type: "vm"
+    critical: true
+  - id: 104
+    name: "iventoy-dubai"
+    type: "vm"
+    critical: true
+  - id: 100
+    name: "Debian"
+    type: "vm"
+    critical: false
+  - id: 102
+    name: "NEXTCLOUD-DUBAI"
+    type: "ct"
+    critical: true
+
+admin_network: "172.31.24.0/24"
+
+#Varför
+report_path: "/tmp/log.txt"
+warning_path: "/tmp/warning_log.txt"

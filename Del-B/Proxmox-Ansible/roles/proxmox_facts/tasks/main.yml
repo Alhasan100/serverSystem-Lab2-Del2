@@ -1,0 +1,33 @@
+---
+- name: "Hämtar VM lista"
+  command: "qm list"
+  register: vm_list_raw
+  changed_when: false
+  check_mode: false
+
+- name: "Hämtar CT lista"
+  command: "pct list"
+  register: ct_list_raw
+  changed_when: false
+  check_mode: false
+
+- name: "Status per VM"
+  command: "qm status {{item.id}}"
+  register: vm_detail_status
+  loop: "{{ desired_running | selectattr('type', 'equalto', 'vm') | list }}"
+  loop_control: 
+    label: "VM {{ item.id}} ({{ item.name }})"
+  changed_when: false
+  check_mode: false
+  failed_when: false
+
+- name: "Status per CT"
+  command: "pct status {{item.id}}"
+  register: ct_detail_status
+  loop: "{{ desired_running | selectattr('type', 'equalto', 'ct') | list }}"
+  loop_control: 
+    label: "CT {{ item.id}} ({{ item.name }})"
+  changed_when: false
+  check_mode: false
+  failed_when: false
+  

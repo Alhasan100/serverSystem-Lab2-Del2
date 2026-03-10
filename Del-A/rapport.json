@@ -1,0 +1,32 @@
+[
+    {
+        "id": 100,
+        "typ": "VM",
+        "Status": "status: stopped",
+        "node": "172.31.24.30"
+    },
+    {
+        "id": 103,
+        "typ": "VM",
+        "Status": "status: running",
+        "node": "172.31.24.30"
+    },
+    {
+        "id": 104,
+        "typ": "VM",
+        "Status": "status: running",
+        "node": "172.31.24.30"
+    },
+    {
+        "id": 106,
+        "typ": "VM",
+        "Status": "status: running",
+        "node": "172.31.24.30"
+    },
+    {
+        "id": 102,
+        "typ": "CT",
+        "Status": "status: running",
+        "node": "172.31.24.30"
+    }
+]

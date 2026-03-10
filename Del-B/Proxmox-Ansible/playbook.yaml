@@ -1,0 +1,10 @@
+---
+- name: Proxmox Desired State Management
+  hosts: proxmox
+  gather_facts: false
+
+  roles:
+    - proxmox_facts
+    - desired_state
+    - firewall
+    - summary

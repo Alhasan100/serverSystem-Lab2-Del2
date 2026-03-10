@@ -1,0 +1,9 @@
+proxmox_host: "172.31.24.30"
+ssh_user: "root"
+vm_ids:
+  - 100
+  - 103
+  - 104
+  - 106
+ct_ids:
+  - 102
