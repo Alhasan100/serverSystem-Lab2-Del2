@@ -79,3 +79,7 @@ Systemet är designat för att vara **idempotent**. Vid en andra körning i rad 
 ---
 
 *Dokumentationen senast uppdaterad: 5 mars 2026*
+
+```
+
+```
