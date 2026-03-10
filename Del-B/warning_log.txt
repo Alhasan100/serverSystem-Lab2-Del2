@@ -1,0 +1,7 @@
+PROXMOX VARNINGSLOGG
+
+Brandvägg:
+VARNING: Hittade ingen tydlig ACCEPT-regel för 172.31.24.0/24!
+
+Misslyckade starter:
+Inga misslyckade starter.
