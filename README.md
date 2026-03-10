@@ -60,6 +60,9 @@ Projektet är organiserat enligt följande för att främja modularitet:
 * `desired_state/main.yaml`: Innehåller definitionen av det önskade tillståndet för miljön.
 * `log/`: Innehåller loggfiler som `inventory.log` och `warning.log`.
 
+<img width="454" height="248" alt="image" src="https://github.com/user-attachments/assets/91a530b3-f80c-4928-ac23-d92ba7e8dfa8" />
+
+
 ## Felhantering & Testning
 
 För att verifiera systemets förmåga att logga varningar har vi simulerat ett fel genom att låsa en virtuell maskin i backup-läge:
