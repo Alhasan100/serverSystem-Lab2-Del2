@@ -1,6 +1,6 @@
-# serverSystem-Lab2-Del2
+# ServerSystem Lab2 Del2
 
-Detta projekt omfattar nätverkskonfiguration, systemadministration och automatisering av en servermiljö i Proxmox för domänen `dubai.lab`. Miljön körs på VLAN 2024 med det interna nätverket `172.31.24.0/24`.
+Detta projekt fokuserar på automatisering av en servermiljö i Proxmox för domänen `dubai.lab`. Genom att använda Ansible och Python har vi skapat ett ramverk för att effektivisera driftsättning, hantera maskinstatus och kontrollera brandväggens konfiguration.
 
 ## Projektöversikt
 Projektet är uppdelat i två huvudmoment:
@@ -8,7 +8,7 @@ Projektet är uppdelat i två huvudmoment:
 - **Del B:** Konfigurationshantering och automatisering av virtuella maskiner med Ansible.
 
 ## Förutsättningar
-All automation utförs från kontrollnoden `Ansible-admin` som kör Debian 13.
+All automation utförs från VM `Ansible-admin` som kör Debian 13.
 
 ### 1. SSH-konfiguration
 För att Ansible ska kunna kommunicera med Proxmox-noden (`172.31.24.30`) krävs lösenordslös inloggning:
@@ -58,7 +58,7 @@ Projektet är organiserat enligt följande för att främja modularitet:
 * `inventory/hosts.ini`: Definition av Proxmox-noder (vår array av maskiner).
 * `proxmox.yaml`: Huvud-playbook som styr körningen och anropar tasks.
 * `desired_state/main.yaml`: Innehåller definitionen av det önskade tillståndet för miljön.
-* `log/`: Innehåller loggfiler som `inventory.log` och `warning.log`.
+* loggarna sparas under `tmp/` på proxmox noden.
 
 Mappstrukturen framställdes genom en iterativ process med hjälp av AI. Genom att mata in specifik information om projektets omfattning, vilka mappar som krävdes och vilka specifika *tasks* som skulle genomföras, genererades flera olika bild versioner. 
 
@@ -77,7 +77,9 @@ qm set 100 --lock backup
 
 ```
 
-Detta gör att Ansible inte kan starta maskinen, vilket fångas upp av vår felhanteringslogik (via en loop i summary) och skrivs till `warning.log`.
+Detta gör att Ansible inte kan starta maskinen, vilket fångas upp av vår felhanteringslogik (via en loop i summary) och skrivs till `warning_log.txt` som man ser nedan:
+<img width="444" height="146" alt="image" src="https://github.com/user-attachments/assets/6f4c149a-bac0-43c5-b565-4b7943c71a70" />
+
 
 ## Idempotens
 
