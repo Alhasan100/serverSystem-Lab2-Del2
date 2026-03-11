@@ -17,7 +17,7 @@ För att Ansible ska kunna kommunicera med Proxmox-noden (`172.31.24.30`) krävs
 3.  **Verifiera anslutning:** `ssh root@172.31.24.30`
 
 ### 2. Installation av beroenden
-Kör följande kommandon på kontrollnoden:
+Kör följande kommandon på `Ansible-admin` VM:
 ```bash
 sudo apt update
 sudo apt install ansible python3-yaml -y
@@ -56,7 +56,6 @@ Projektet är organiserat enligt följande för att främja modularitet:
 
 * `ansible.cfg`: Central konfiguration som sätter inventory-sökväg och inaktiverar `host_key_checking`.
 * `inventory/hosts.ini`: Definition av Proxmox-noder (vår array av maskiner).
-* `proxmox.yaml`: Huvud-playbook som styr körningen och anropar tasks.
 * `desired_state/main.yaml`: Innehåller definitionen av det önskade tillståndet för miljön.
 * loggarna sparas under `tmp/` på proxmox noden.
 
