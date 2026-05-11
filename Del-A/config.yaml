@@ -1,4 +1,4 @@
-proxmox_host: "172.31.24.30"
+proxmox_host: "192.0.2.30"
 ssh_user: "root"
 vm_ids:
   - 100

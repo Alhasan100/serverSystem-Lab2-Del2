@@ -1,5 +1,5 @@
 ---
-- name: "FIREWALL | kontrollera om pve-firewall är aktiv"
+- name: "FIREWALL | Kontrollera om pve-firewall är aktiv"
   command: "pve-firewall status"
   register: fw_status
   changed_when: false
@@ -7,10 +7,10 @@
 
 - name: "FIREWALL | Läs in klustrets brandväggsregler"
   command: "cat /etc/pve/firewall/cluster.fw"
-  register: fw_rules 
-  changed_when: false 
+  register: fw_rules
+  changed_when: false
   check_mode: false
-  failed_when: false 
+  failed_when: false
 
 - name: "FIREWALL | Spara brandväggsvarning om regel saknas"
   set_fact:

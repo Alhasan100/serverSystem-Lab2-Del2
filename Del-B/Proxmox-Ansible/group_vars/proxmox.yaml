@@ -1,5 +1,4 @@
 ---
-
 desired_running:
   - id: 103
     name: "suricata-dubai"
@@ -10,16 +9,15 @@ desired_running:
     type: "vm"
     critical: true
   - id: 100
-    name: "Debian"
+    name: "debian-lab"
     type: "vm"
     critical: false
   - id: 102
-    name: "NEXTCLOUD-DUBAI"
+    name: "nextcloud-dubai"
     type: "ct"
     critical: true
 
-admin_network: "172.31.24.0/24"
+admin_network: "192.0.2.0/24"
 
-#Varför
 report_path: "/tmp/log.txt"
 warning_path: "/tmp/warning_log.txt"

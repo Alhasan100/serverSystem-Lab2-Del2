@@ -1,92 +1,125 @@
 # ServerSystem Lab2 Del2
 
-Detta projekt fokuserar på automatisering av en servermiljö i Proxmox för domänen `dubai.lab`. Genom att använda Ansible och Python har vi skapat ett ramverk för att effektivisera driftsättning, hantera maskinstatus och kontrollera brandväggens konfiguration.
+**Version:** 1.0.0 | **Author:** Alhasan Al-Hmondi
 
-## Projektöversikt
-Projektet är uppdelat i två huvudmoment:
-- **Del A:** Inventering och rapportgenerering via Python-script (`rapport.json`).
-- **Del B:** Konfigurationshantering och automatisering av virtuella maskiner med Ansible.
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## Förutsättningar
-All automation utförs från VM `Ansible-admin` som kör Debian 13.
+ServerSystem Lab2 Del2 is a small infrastructure automation lab for managing a Proxmox-based server environment. The project combines Python inventory reporting with Ansible desired-state automation so VM/CT status, firewall checks, and warning logs can be reviewed in a repeatable way.
 
-### 1. SSH-konfiguration
-För att Ansible ska kunna kommunicera med Proxmox-noden (`172.31.24.30`) krävs lösenordslös inloggning:
-1.  **Generera nyckel:** `ssh-keygen -t ed25519`
-2.  **Kopiera till Proxmox:** `ssh-copy-id root@172.31.24.30`
-3.  **Verifiera anslutning:** `ssh root@172.31.24.30`
+## Why This Project Exists
 
-### 2. Installation av beroenden
-Kör följande kommandon på `Ansible-admin` VM:
+I built this project as part of a server systems lab to practice practical infrastructure administration. The goal is not to create a large platform, but to show that I can document a lab environment, collect useful system state, run Ansible safely, and produce logs that are readable when something does not match the expected state.
+
+## Stack
+
+- Python 3
+- PyYAML
+- Ansible
+- Proxmox CLI tools (`qm`, `pct`, `pve-firewall`)
+- SSH key-based administration
+
+## Project Parts
+
+- **Del A:** Python inventory script that checks VM/CT status over SSH and writes `rapport.json` plus `inventory.log`.
+- **Del B:** Ansible playbook that checks Proxmox state, starts expected machines, validates firewall status, and writes summary/warning logs.
+
+## Project Structure
+
+```text
+serverSystem-Lab2-Del2/
+|-- Del-A/
+|   |-- Script.py
+|   |-- config.yaml
+|   |-- rapport.json
+|   `-- inventory.log
+|-- Del-B/
+|   |-- Proxmox-Ansible/
+|   |-- log.txt
+|   `-- warning_log.txt
+|-- LICENSE
+|-- lab2_del2-dubai.pdf
+`-- README.md
+```
+
+## Requirements
+
+Run the automation from an Ansible admin host that can reach the Proxmox node over SSH.
+
+Install the basic dependencies:
+
 ```bash
 sudo apt update
 sudo apt install ansible python3-yaml -y
-
 ```
 
-## Ansible Körningskommandon
+Set up SSH key-based login to the Proxmox node:
 
-Beroende på vilket test- eller driftsläge som önskas används följande kommandon i terminalen:
-
-* **Normal körning** (Utför ändringarna skarpt på måldatorerna):
 ```bash
-ansible-playbook playbook.yaml
-
+ssh-keygen -t ed25519
+ssh-copy-id root@<proxmox-node-ip>
+ssh root@<proxmox-node-ip>
 ```
 
+The repository uses documentation-safe example addresses such as `192.0.2.30`. Before running the lab, update:
 
-* **Dry-run / Check** (Testkör skriptet och visar vad som skulle ändras):
+- `Del-A/config.yaml`
+- `Del-B/Proxmox-Ansible/inventory/hosts.ini`
+- `Del-B/Proxmox-Ansible/group_vars/proxmox.yaml`
+
+## Usage
+
+Run the Python inventory:
+
+```bash
+cd Del-A
+python3 Script.py
+```
+
+Run the Ansible desired-state playbook:
+
+```bash
+cd Del-B/Proxmox-Ansible
+ansible-playbook playbook.yaml
+```
+
+Run a dry-run:
+
 ```bash
 ansible-playbook playbook.yaml --check
-
 ```
 
+Run a dry-run with diff output:
 
-* **Check och Diff** (Dry-run som även visar exakta radskillnader i konfigurationen):
 ```bash
 ansible-playbook playbook.yaml --check --diff
-
 ```
 
+## What The Automation Checks
 
+- VM and container status
+- Expected running state for selected machines
+- Firewall status on the Proxmox node
+- Missing firewall allowance for the configured admin network
+- Failed VM/CT start attempts
 
-## Mappstruktur
+## Output Files
 
-Projektet är organiserat enligt följande för att främja modularitet:
+- `Del-A/rapport.json`: structured inventory output from the Python script
+- `Del-A/inventory.log`: timestamped inventory run summary
+- `Del-B/log.txt`: sample desired-state summary
+- `Del-B/warning_log.txt`: sample warning output
 
-* `ansible.cfg`: Central konfiguration som sätter inventory-sökväg och inaktiverar `host_key_checking`.
-* `inventory/hosts.ini`: Definition av Proxmox-noder (vår array av maskiner).
-* `desired_state/main.yaml`: Innehåller definitionen av det önskade tillståndet för miljön.
-* loggarna sparas under `tmp/` på proxmox noden.
+## Final Scope
 
-Mappstrukturen framställdes genom en iterativ process med hjälp av AI. Genom att mata in specifik information om projektets omfattning, vilka mappar som krävdes och vilka specifika *tasks* som skulle genomföras, genererades flera olika bild versioner. 
+This project is intentionally focused on a small Proxmox lab. It demonstrates scripting, configuration management, SSH-based administration, desired-state thinking, warning handling, and operational documentation without hiding the actual infrastructure workflow behind a dashboard.
 
-För att nå det slutgiltiga resultatet krävdes en mer detaljerad och preciserad beskrivning i prompten gällande exakt vilka undermappar och filer som behövdes för att stödja projektets logik. Arbetet fortsatte tills vi uppnådde denna specifika struktur, vilken vi fastställde som den mest optimala för att organisera våra Ansible-playbooks och tillhörande konfigurationsfiler på ett logiskt och lätthanterligt sätt. Nedan kan man se den Mappstrukturen som vi valde:
+## Future Improvements
 
-<img width="908" height="496" alt="image" src="https://github.com/user-attachments/assets/91a530b3-f80c-4928-ac23-d92ba7e8dfa8" />
+- Add an Ansible Vault example if credentials are ever needed
+- Add CI validation for YAML syntax
+- Add a sample `--check` output file for documentation
+- Split environment-specific values into a clearer sample inventory
 
+## License
 
-## Felhantering & Testning
-
-För att verifiera systemets förmåga att logga varningar har vi simulerat ett fel genom att låsa en virtuell maskin i backup-läge:
-
-```bash
-# Kommando för att låsa en VM (t.ex. ID 100)
-qm set 100 --lock backup
-
-```
-
-Detta gör att Ansible inte kan starta maskinen, vilket fångas upp av vår felhanteringslogik (via en loop i summary) och skrivs till `warning_log.txt` som man ser nedan:
-
-<img width="888" height="292" alt="image" src="https://github.com/user-attachments/assets/6f4c149a-bac0-43c5-b565-4b7943c71a70" />
-
-log filer som finns under Del-B är loggar som visar resultat på hur det skulle se ut om allt är igång och inga varningar uppstår.
-
-
-## Idempotens
-
-Systemet är designat för att vara **idempotent**. Vid en andra körning i rad av samma playbook ska inga nya ändringar ske (`changed=0`), vilket bekräftar att systemet känner av att det redan befinner sig i det önskade tillståndet.
-
----
-
-
+This project is licensed under the GNU General Public License v3.0. See `LICENSE` for the full license text.
